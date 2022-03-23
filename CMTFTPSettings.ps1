@@ -1,4 +1,4 @@
-<#
+﻿<#
 	.SYNOPSIS
 		Quickly modify the Configuration Manager TFTP settings.
 	.DESCRIPTION
@@ -9,7 +9,7 @@
 	.NOTES
 		Works with PowerShell 7.1+
 	.NOTES
-		Created By:   Cameron Kollwitz <cameron@kollwitz.us>
+	    Created By:   Cameron Kollwitz <cameron@kollwitz.us>
         Updated By:   Eizedev (github@eize.dev)
 		Version:      1.2.0
 		Date:         2022-03-23
