@@ -2,7 +2,7 @@
 
 Simple GUI to configure the Configuration Manager TFTP settings on Distribution Points.
 
-![Configuration Manager TFTP Settings GUI](/images/screenshot.png)
+![Configuration Manager TFTP Settings GUI](/images/gui.png)
 
 Works with PowerShell 7.1+
 
