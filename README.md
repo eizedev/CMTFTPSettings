@@ -12,4 +12,4 @@ This is an updated version of the original script written by Jörgen Nilsson at:
 
 ## References
 
-- [Customize the RamDisk TFTP block and window sizes on PXE-enabled distribution points](https://docs.microsoft.com/en-us/mem/configmgr/osd/get-started/prepare-site-system-roles-for-operating-system-deployments?redirectedfrom=MSDN#BKMK_RamDiskTFTP)
+- [Customize the RamDisk TFTP block and window sizes on PXE-enabled distribution points](https://docs.microsoft.com/en-us/mem/configmgr/osd/get-started/prepare-site-system-roles-for-operating-system-deployments?redirectedfrom=MSDN#customize-the-ramdisk-tftp-block-and-window-sizes-on-pxe-enabled-distribution-points)
