@@ -1,3 +1,21 @@
+<#
+	.SYNOPSIS
+		Quickly modify the Configuration Manager TFTP settings.
+	.DESCRIPTION
+		GUI to change the TFTP settings and restart the PXE service.
+	.NOTES (ORIGINAL)
+		Version 1.0: Initial script
+			- Jorgen Nilsson <https://www.ccmexec.com/>
+	.NOTES
+		Works with PowerShell 7.1+
+	.NOTES
+		Created By:   Cameron Kollwitz <cameron@kollwitz.us>
+        Updated By:   Eizedev (github@eize.dev)
+		Version:      1.2.0
+		Date:         2022-03-23
+		File Name:    CMTFTPSettings.ps1
+#>
+
 # Find correct service (PXE without WDS = SCCMPxe, with WDS = WDSServer)
 $ServiceName = "WDSServer"
 If ((Get-Service -Name SccmPxe -ErrorAction SilentlyContinue)) { $ServiceName = "SccmPxe" }
@@ -11,7 +29,7 @@ $inputXML = @"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication1"
         mc:Ignorable="d"
-        Title="SCCM TFTP Changer" Height="267.52" Width="384.414">
+        Title="ConfigMgr TFTP Settings" Height="267.52" Width="384.414">
     <Grid Margin="0,0,2,-3">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="48*"/>
@@ -62,11 +80,16 @@ $xaml.SelectNodes("//*[@Name]") | ForEach-Object { Set-Variable -Name "WPF$($_.N
 
 Function Get-FormVariables
 {
-    if ($global:ReadmeDisplay -ne $true) { Write-Host "If you need to reference this display again, run Get-FormVariables" -ForegroundColor Yellow; $global:ReadmeDisplay = $true }
+    if ($global:ReadmeDisplay -ne $true)
+    {
+        Write-Host "If you need to reference this display again, run Get-FormVariables" -ForegroundColor Yellow
+        $global:ReadmeDisplay = $true
+    }
     Write-Host "Found the following interactable elements from our form" -ForegroundColor Cyan
     Get-Variable WPF*
 }
 
+# Getting current values from registry
 Try
 {
     $comboBlockSize = $Form.FindName("TFTPBlockSize")
