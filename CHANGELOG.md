@@ -9,6 +9,7 @@
   - Show current values in dropdown + info message in textbox
   - If not available, show the microsoft default values instead
 - Updated margin/width of gui to fit the customized restart service button
+- Fix correct url to microsoft TFTP custommization documentation
 
 ## v1.1.1 (2021-05-16)
 
