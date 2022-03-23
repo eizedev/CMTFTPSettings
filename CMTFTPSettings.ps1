@@ -1,19 +1,19 @@
 ﻿<#
-	.SYNOPSIS
-		Quickly modify the Configuration Manager TFTP settings.
-	.DESCRIPTION
-		GUI to change the TFTP settings and restart the PXE service.
-	.NOTES (ORIGINAL)
-		Version 1.0: Initial script
-			- Jorgen Nilsson <https://www.ccmexec.com/>
-	.NOTES
-		Works with PowerShell 7.1+
-	.NOTES
-	    Created By:   Cameron Kollwitz <cameron@kollwitz.us>
+    .SYNOPSIS
+        Quickly modify the Configuration Manager TFTP settings.
+    .DESCRIPTION
+        GUI to change the TFTP settings and restart the PXE service.
+    .NOTES (ORIGINAL)
+        Version 1.0: Initial script
+            - Jorgen Nilsson <https://www.ccmexec.com/>
+    .NOTES
+        Works with PowerShell 7.1+
+    .NOTES
+        Created By:   Cameron Kollwitz <cameron@kollwitz.us>
         Updated By:   Eizedev (github@eize.dev)
-		Version:      1.2.0
-		Date:         2022-03-23
-		File Name:    CMTFTPSettings.ps1
+        Version:      1.2.1
+        Date:         2022-03-23
+        File Name:    CMTFTPSettings.ps1
 #>
 
 # Find correct service (PXE without WDS = SCCMPxe, with WDS = WDSServer)
