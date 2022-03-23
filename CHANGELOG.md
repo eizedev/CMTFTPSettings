@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v1.2.1 (2022-03-23)
+
+- (Re-)Added comment_based_help header to script
+- Fixed formatting and typos
+
 ## v1.2.0 (2022-03-23)
 
 - Added check for the used WDS/PXE Service
@@ -9,7 +14,7 @@
   - Show current values in dropdown + info message in textbox
   - If not available, show the microsoft default values instead
 - Updated margin/width of gui to fit the customized restart service button
-- Fix correct url to microsoft TFTP custommization documentation
+- Fix correct url to microsoft TFTP customization documentation
 
 ## v1.1.1 (2021-05-16)
 
