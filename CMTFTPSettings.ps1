@@ -11,15 +11,29 @@
     .NOTES
         Created By:   Cameron Kollwitz <cameron@kollwitz.us>
         Updated By:   Eizedev (github@eize.dev)
-        Version:      1.2.1
-        Date:         2022-03-23
+        Version:      1.3.0
+        Date:         2022-05-18
         File Name:    CMTFTPSettings.ps1
 #>
 
 # Find correct service (PXE without WDS = SCCMPxe, with WDS = WDSServer)
 $ServiceName = "WDSServer"
-If ((Get-Service -Name SccmPxe -ErrorAction SilentlyContinue)) { $ServiceName = "SccmPxe" }
-If ((Get-Service -Name WDSServer -ErrorAction SilentlyContinue)) { $ServiceName = $ServiceName }
+If (Get-Service -Name SccmPxe -ErrorAction SilentlyContinue | Tee-Object -Variable ServiceConfig)
+{
+    # if service is not disabled, use the this service
+    if ($ServiceConfig.StartType -ne 'Disabled')
+    {
+        $ServiceName = "SccmPxe"
+    }
+}
+If (Get-Service -Name WDSServer -ErrorAction SilentlyContinue | Tee-Object -Variable ServiceConfig)
+{
+    # if service is not disabled, use the this service
+    if ($ServiceConfig.StartType -ne 'Disabled')
+    {
+        $ServiceName = $ServiceName
+    }
+}
 
 $inputXML = @"
 <Window x:Name="SCCM_TFTP_Changer" x:Class="WpfApplication1.MainWindow"
@@ -89,6 +103,16 @@ Function Get-FormVariables
     Get-Variable WPF*
 }
 
+function Wait-ServiceStatus($searchString, $status)
+{
+    # Get all services where Name matches $searchString and loop through each of them.
+    foreach ($service in (Get-Service -Name $searchString))
+    {
+        # Wait for the service to reach the $status or a maximum of 30 seconds
+        $service.WaitForStatus($status, '00:01:00')
+    }
+}
+
 # Getting current values from registry
 Try
 {
@@ -115,16 +139,15 @@ $WPFExit.Add_Click( { $form.Close() })
 $WPFRestart.Add_Click(
     {
         $WPFTextbox.Text = ("Service is restarting")
-        Start-Job -scriptblock { Restart-Service $ServiceName }
+        Start-Job -ScriptBlock { Restart-Service $ServiceName }
         Start-Sleep -s 3
-        WaitUntilServices $ServiceName "Running"
+        Wait-ServiceStatus $ServiceName "Running"
         $WPFTextbox.Text = ("$ServiceName Service Restarted")
     }
 )
 
 $WPFSave.Add_Click(
     {
-        $WPFTextbox.Text = ("Write to registry completed")
         Try
         {
             New-ItemProperty "HKLM:\SOFTWARE\Microsoft\SMS\DP" -Name "RamDiskTFTPWindowSize" -Value $WPFTFTPWindowsSize.text -PropertyType Dword -Force -ErrorAction Stop
@@ -135,18 +158,9 @@ $WPFSave.Add_Click(
         {
             $WPFTextbox.Text = ("Write to registry Failed! Check your permissions")
         }
+        $WPFTextbox.Text = ("Write to registry completed")
     }
 )
-
-function WaitUntilServices($searchString, $status)
-{
-    # Get all services where Name matches $searchString and loop through each of them.
-    foreach ($service in (Get-Service -Name $searchString))
-    {
-        # Wait for the service to reach the $status or a maximum of 30 seconds
-        $service.WaitForStatus($status, '00:01:00')
-    }
-}
 #===========================================================================
 # Shows the form
 #===========================================================================
